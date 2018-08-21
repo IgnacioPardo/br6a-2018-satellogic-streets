@@ -31,4 +31,4 @@ def main():
 				notRoadList.append(back.getpixel((i, j)))
 
 
-	return ",".join([str(x) for x in roadList]) + '<br>' + ",".join([str(x) for x in notRoadList])
+	return ":".join([str(x) for x in roadList]) + '<br>' + ":".join([str(x) for x in notRoadList])
