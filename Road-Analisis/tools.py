@@ -1,4 +1,5 @@
 import os
+from skimage import data_dir
 
 def cmd(line):
 	os.system(line)
@@ -11,3 +12,15 @@ def runSh(path):
 
 def sqrt(n):
 	return n**(0.5)
+
+def createDirectories():
+	if not os.path.exists(data_dir+'/skeletons/'):
+		os.makedirs(data_dir+'/skeletons/')
+	if not os.path.exists(data_dir+'/files/'):
+		os.makedirs(data_dir+'/files/')
+	if not os.path.exists(os.getcwd()+'/skeletons/'):
+		os.makedirs(os.getcwd()+'/skeletons/')
+	if not os.path.exists(os.getcwd()+'/tiles/'):
+		os.makedirs(os.getcwd()+'/tiles/')
+	if not os.path.exists(os.getcwd()+'/maps/'):
+		os.makedirs(os.getcwd()+'/maps/')
