@@ -7,7 +7,7 @@ maps/
 files/
 
 #tests
-visualisation_test.py
+visualization_test.py
 test_tools.py
 test.py
 
