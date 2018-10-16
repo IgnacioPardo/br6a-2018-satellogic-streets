@@ -20,9 +20,10 @@ def createBoard(tiles):
 
 def fitTiles(board, tiles):
 
-	grid = range(0,board.size[0],tiles[0][0].size[0])
+	grid = range(0,board.size[0],512)
 
 	a = 0
+
 	for key in range(int(sqrt(len(tiles)))):
 		#board.paste(tiles[key][0], (choice(grid), choice(grid)))
 		for key2 in range(int(sqrt(len(tiles)))):

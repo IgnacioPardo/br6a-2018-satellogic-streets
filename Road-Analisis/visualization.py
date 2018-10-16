@@ -1,6 +1,7 @@
 from tools import *
 from PIL import Image
 import cv2
+from random import randint
 	
 def colorBlock(i, j, pxs, tup):
 	for k in range(16):
@@ -8,26 +9,49 @@ def colorBlock(i, j, pxs, tup):
 			pxs[i+k,j+q] = tup
 	return pxs
 
-def predictionDepiction(i):
-	image = Image.open('test_set_images/test_'+str(i)+'/test_' + str(i) + '.png')
-	pxs = image.load()
-	prediction = open('submission.csv').read()
-	image.save('test{}.png'.format(i))
-	thisImagesPredictions = [(int(a.split(',')[0].split('_')[-1]), int(a.split(',')[0].split('_')[-2]), int(a.split(',')[1])) for a in prediction.split('\n') if (a.split(',')[0].split('_')[0] == ('00' if (i<10) else '0') + str(i))]
 
-	roadBlocks = [(pred[0], pred[1]) for pred in thisImagesPredictions if pred[2] == 0]
+def makeGrid(ls):
 
-	notRoadBlocks = [(pred[0], pred[1]) for pred in thisImagesPredictions if pred[2] == 1]
-	for a in roadBlocks:
-		pxs = colorBlock(a[0],a[1],pxs, (0,0,0))
+	#pxs = img.load()
 
-	for a in notRoadBlocks:
-		pxs = colorBlock(a[0],a[1],pxs, (255,255,255))
-
-	img = cv2.imread('test{}-prediction.png'.format(i),0)
+	roadblock = Image.new("RGB", (16, 16), 'white')
 	
-	#laplacian = cv2.Laplacian(img,cv2.CV_64F)
+	a = Image.new("RGB", (512, 512), 'black')
 
-	#cv2.imwrite('test{}-prediction-laplacian.png'.format(i), laplacian)
+	#grid = range(0,512,16)
 
-	#cv2.imwrite('test{}-prediction-laplacian.bmp'.format(i), laplacian)
+	#for e in range(1.024):
+	#	a.paste(roadblock, (ls[e] * 16,))#(choice(grid), choice(grid)))
+
+	#for e in ls:
+	#	print(e, '\n')
+
+	for i in range(0, 512,16):
+		for j in range(0, 512,16):
+			if (ls[int(i/16)][int(j/16)] == 1):
+				#print(ls[int(i/16)][int(j/16)], (i, j))
+				#a.paste(roadblock, (i, j))
+
+
+	#a.save('tiles/tile-{}.bmp'.format(i))
+
+	return a
+
+
+def predictionDepiction(t):
+	
+	pathToImage = 'images/image-{}.png'.format(t)
+	pathToSave = 'tiles/tile-{}.bmp'.format(t)
+
+	#tile = Image.open(pathToImage)
+	#prediction = open().read() #Archivo de Tomislav
+
+	#Color predicted road blocks
+
+	#prediction = [[randint(0,1) for a in range(32)] for a in range(32)]
+
+	tile = makeGrid(prediction)
+
+	tile.save(pathToSave)
+
+#predictionDepiction(15)

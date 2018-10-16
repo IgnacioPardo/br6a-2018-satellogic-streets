@@ -9,16 +9,16 @@ def main():
 
 	createDirecories()
 
-	for t in originalTiles:
-		predictionDepiction(pathIn, pathOut)
+	for i in range(len(images)):
+		predictionDepiction(t)
 
 	tiles = loadTiles()
 	
 	board = createBoard(tiles)
 
-	fitTiles(board, tiles).save('files/premap.bmp')
-	
-	fitTiles(board, tiles).save(data_dir+'/files/premap.bmp')
+	premap = fitTiles(board, tiles)
+	premap.save('files/premap.bmp')
+	premap.save(data_dir+'/files/premap.bmp')
 
 	sekeletonize('files/premap.bmp', 'skeletons/map.bmp')
 
