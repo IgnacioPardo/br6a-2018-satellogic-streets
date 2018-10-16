@@ -22,5 +22,16 @@ def createDirectories():
 		os.makedirs(os.getcwd()+'/skeletons/')
 	if not os.path.exists(os.getcwd()+'/tiles/'):
 		os.makedirs(os.getcwd()+'/tiles/')
+	if not os.path.exists(os.getcwd()+'/files/'):
+		os.makedirs(os.getcwd()+'/files/')
 	if not os.path.exists(os.getcwd()+'/maps/'):
 		os.makedirs(os.getcwd()+'/maps/')
+	if not os.path.exists(os.getcwd()+'/tests/'):
+		os.makedirs(os.getcwd()+'/tests/')
+
+def loadCSV():
+	locations = open('geo.csv').read()
+
+	locList = [locations.split('/n').split(',') for a in locations.split('/n')]
+
+	return locList
