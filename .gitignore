@@ -4,6 +4,13 @@ tiles/
 tests/
 skeletons/
 maps/
+files/
+
+#tests
+visualisation_test.py
+test_tools.py
+test.py
+
 
 #Uncompressed code
 -*.py
