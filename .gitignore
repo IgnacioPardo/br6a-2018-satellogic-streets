@@ -1,5 +1,9 @@
 #Images
 test_set_images/
+tiles/
+tests/
+skeletons/
+maps/
 
 #Uncompressed code
 -*.py
