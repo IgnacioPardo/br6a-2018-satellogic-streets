@@ -5,6 +5,12 @@ import os
 
 def loadTiles():
 	ls = []
+
+	if len(os.listdir(os.getcwd()+'/tiles/')) == 1:
+		image_filename = 'tiles/tile-0.bmp'
+		ls.append([Image.open(image_filename), ])
+		return ls
+
 	for i in range(len(os.listdir(os.getcwd()+'/tiles/'))-3):
 		image_filename = 'tiles/tile-{}.bmp'.format(i)
 		ls.append([Image.open(image_filename), ])
