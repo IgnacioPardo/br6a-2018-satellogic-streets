@@ -10,11 +10,11 @@ def main():
 	createDirecories()
 
 	for i in range(len(images)):
-		predictionDepiction(t)
+		predictionDepiction(i)
 
 	tiles = loadTiles()
 	
-	board = createBoard(tiles)
+	board = createBoard()
 
 	premap = fitTiles(board, tiles)
 	premap.save('files/premap.bmp')
@@ -23,8 +23,3 @@ def main():
 	sekeletonize('files/premap.bmp', 'skeletons/map.bmp')
 
 	bmp_to_svg('skeletons/map.bmp', 'maps/map.svg')
-
-
-
-
-

@@ -2,45 +2,30 @@ from tools import *
 from PIL import Image
 import cv2
 from random import randint
-	
-def colorBlock(i, j, pxs, tup):
-	for k in range(16):
-		for q in range(16):
-			pxs[i+k,j+q] = tup
-	return pxs
 
+def scale(img, originalSize, fullSize, roadSize):
 
-def makeGrid(ls):
+	new = Image.new("RGB", (fullSize, fullSize), 'black')
 
-	#pxs = img.load()
+	print((fullSize, fullSize))
 
-	roadblock = Image.new("RGB", (16, 16), 'white')
-	
-	a = Image.new("RGB", (512, 512), 'black')
+	roadblock = Image.new("RGB", (roadSize, roadSize), 'white')
 
-	#grid = range(0,512,16)
+	roadpxs = roadblock.load()
 
-	#for e in range(1.024):
-	#	a.paste(roadblock, (ls[e] * 16,))#(choice(grid), choice(grid)))
+	for i in range(originalSize):
+		for j in range(originalSize):
+			#print((i*fullSize/roadSize, j*fullSize/roadSize))
+			if img.getpixel((i, j)) == (255, 255, 255):
+				#print((i*fullSize/roadSize, j*fullSize/roadSize))
+				new.paste(roadblock, (int(i*fullSize/originalSize), int(j*fullSize/originalSize)))
 
-	#for e in ls:
-	#	print(e, '\n')
-
-	for i in range(0, 512,16):
-		for j in range(0, 512,16):
-			if (ls[int(i/16)][int(j/16)] == 1):
-				#print(ls[int(i/16)][int(j/16)], (i, j))
-				#a.paste(roadblock, (i, j))
-
-
-	#a.save('tiles/tile-{}.bmp'.format(i))
-
-	return a
+	return new	
 
 
 def predictionDepiction(t):
 	
-	pathToImage = 'images/image-{}.png'.format(t)
+	prediction = 'images/image-{}.png'.format(t)
 	pathToSave = 'tiles/tile-{}.bmp'.format(t)
 
 	#tile = Image.open(pathToImage)
@@ -50,8 +35,23 @@ def predictionDepiction(t):
 
 	#prediction = [[randint(0,1) for a in range(32)] for a in range(32)]
 
-	tile = makeGrid(prediction)
+	tile = scale(Image.open(prediction), 16, 512, 32)
 
-	tile.save(pathToSave)
+	#tile.save(pathToSave)
+	tile.save('images/tile-15.png')
 
-#predictionDepiction(15)
+
+new = Image.new("RGB", (16, 16), 'black')
+
+pxs = new.load()
+
+for i in range(new.size[0]):
+	for j in range(new.size[1]):
+		if randint(0,8) == 1:
+			pxs[i, j] = (255, 255, 255)
+
+new.save('images/image-15.png')
+
+predictionDepiction(15)
+
+

@@ -28,10 +28,6 @@ def createDirectories():
 		os.makedirs(os.getcwd()+'/maps/')
 	if not os.path.exists(os.getcwd()+'/tests/'):
 		os.makedirs(os.getcwd()+'/tests/')
+	if not os.path.exists(os.getcwd()+'/images/'):
+		os.makedirs(os.getcwd()+'/images/')
 
-def loadCSV():
-	locations = open('geo.csv').read()
-
-	locList = [locations.split('/n').split(',') for a in locations.split('/n')]
-
-	return locList
