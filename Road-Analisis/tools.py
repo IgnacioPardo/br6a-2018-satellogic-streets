@@ -30,4 +30,6 @@ def createDirectories():
 		os.makedirs(os.getcwd()+'/tests/')
 	if not os.path.exists(os.getcwd()+'/images/'):
 		os.makedirs(os.getcwd()+'/images/')
+	if not os.path.exists(os.getcwd()+'/dataset/'):
+		os.makedirs(os.getcwd()+'/dataset/')
 

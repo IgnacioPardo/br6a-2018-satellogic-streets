@@ -10,8 +10,12 @@ def loadLocations(path):
 
 	# latTopLeftCorner, longTopLeftCorner, latDownRightCorner, longDownRightCorner
 
-	return [loc.split(',')[1:] for loc in raw.split('\n')]
+	return [loc.split(',') for loc in raw.split('\n')]
 
+
+#locs = loadLocations('/dataset/georeferences.csv')
+#for loc in locs:
+#	print(loc)
 
 def outmostLatLong(coordinates, north = True, east = True):
 	# latTopLeftCorner, longTopLeftCorner, latDownRightCorner, longDownRightCorner
@@ -26,32 +30,54 @@ def outmostLatLong(coordinates, north = True, east = True):
 	outmostLongLeft = longLeft[0]
 	outmostLongRight = longRight[0]
 
-	for a in range(len(coordinates)):
+	outmostLatTop = max(latsTop)
+	outmostLatBottom = min(latsBottom)
+	outmostLongLeft = min(longLeft)
+	outmostLongRight = max(longRight)
 
-		if north:
-			if east:
-				outmostLatTop = latsTop[a] if latsTop[a] > outmostLatTop else outmostLatTop
-				outmostLatBottom = latsBottom[a] if latsBottom[a] < outmostLatBottom else outmostLatBottom
-				outmostLongLeft = longLeft[a] if longLeft[a] < outmostLongLeft else outmostLongLeft
-				outmostLongRight = longRight[a] if longRight[a] > outmostLongRight else outmostLongRight
-			else:
-				outmostLatTop = latsTop[a] if latsTop[a] > outmostLatTop else outmostLatTop
-				outmostLatBottom = latsBottom[a] if latsBottom[a] < outmostLatBottom else outmostLatBottom
-				outmostLongLeft = longLeft[a] if longLeft[a] > outmostLongLeft else outmostLongLeft
-				outmostLongRight = longRight[a] if longRight[a] < outmostLongRight else outmostLongRight
-		else:
-			if east:
-				outmostLatTop = latsTop[a] if latsTop[a] < outmostLatTop else outmostLatTop
-				outmostLatBottom = latsBottom[a] if latsBottom[a] > outmostLatBottom else outmostLatBottom
-				outmostLongLeft = longLeft[a] if longLeft[a] < outmostLongLeft else outmostLongLeft
-				outmostLongRight = longRight[a] if longRight[a] > outmostLongRight else outmostLongRight
-			else:
-				outmostLatTop = latsTop[a] if latsTop[a] < outmostLatTop else outmostLatTop
-				outmostLatBottom = latsBottom[a] if latsBottom[a] > outmostLatBottom else outmostLatBottom
-				outmostLongLeft = longLeft[a] if longLeft[a] > outmostLongLeft else outmostLongLeft
-				outmostLongRight = longRight[a] if longRight[a] < outmostLongRight else outmostLongRight
+	#for a in range(len(coordinates)):
 
-		return outmostLatTop, outmostLatBottom, outmostLongLeft, outmostLongRight
+		#if north:
+		#	if east:
+		#		outmostLatTop = latsTop[a] if latsTop[a] > outmostLatTop else outmostLatTop
+		#		outmostLatBottom = latsBottom[a] if latsBottom[a] < outmostLatBottom else outmostLatBottom
+		#		outmostLongLeft = longLeft[a] if longLeft[a] < outmostLongLeft else outmostLongLeft
+		#		outmostLongRight = longRight[a] if longRight[a] > outmostLongRight else outmostLongRight
+		#	else:
+		#		outmostLatTop = latsTop[a] if latsTop[a] > outmostLatTop else outmostLatTop
+		#		outmostLatBottom = latsBottom[a] if latsBottom[a] < outmostLatBottom else outmostLatBottom
+		#		outmostLongLeft = longLeft[a] if longLeft[a] > outmostLongLeft else outmostLongLeft
+		#		outmostLongRight = longRight[a] if longRight[a] < outmostLongRight else outmostLongRight
+		#else:
+		#	if east:
+		#		outmostLatTop = latsTop[a] if latsTop[a] < outmostLatTop else outmostLatTop
+		#		outmostLatBottom = latsBottom[a] if latsBottom[a] > outmostLatBottom else outmostLatBottom
+		#		outmostLongLeft = longLeft[a] if longLeft[a] < outmostLongLeft else outmostLongLeft
+		#		outmostLongRight = longRight[a] if longRight[a] > outmostLongRight else outmostLongRight
+		#	else:
+		#		outmostLatTop = latsTop[a] if latsTop[a] < outmostLatTop else outmostLatTop
+		#		outmostLatBottom = latsBottom[a] if latsBottom[a] > outmostLatBottom else outmostLatBottom
+		#		outmostLongLeft = longLeft[a] if longLeft[a] > outmostLongLeft else outmostLongLeft
+		#		outmostLongRight = longRight[a] if longRight[a] < outmostLongRight else outmostLongRight
+		#if (latsTop[a] > outmostLatTop):
+		#	outmostLatTop = latsTop[a]
+		#if (latsBottom[a] < outmostLatBottom):
+		#	outmostLatTop = latsBottom[a]
+		#if (longLeft[a] < outmostLongLeft):
+		#	outmostLongLeft = longLeft[a]
+		#if (longRight[a] > outmostLongRight):
+		#	outmostLongRight = longRight[a]
+
+	
+	return outmostLatTop, outmostLatBottom, outmostLongLeft, outmostLongRight
+
+locs = loadLocations('/dataset/georeferences.csv')
+print(outmostLatLong(locs))
+
+#('16.00298031528412', '42.54714331528412', '-0.071389', '96.87187494761186')
+#('9.748917', '-0.22712268471588049', '-0.071389', '96.87187494761186')
+
+('9.748917', '-0.22712268471588049', '-0.071389', '96.87187494761186')
 
 #height = outmostLatLong[0] - outmostLatLong[1]
 #width = outmostLatLong[3] - outmostLatLong[2]
@@ -59,10 +85,10 @@ def outmostLatLong(coordinates, north = True, east = True):
 
 def coordinatesToMeters(point, point2):
 	
-	lat1 = point[0]
-	lon1 = point[1]
-	lat2 = point2[0]
-	lon2 = point2[1]
+	lat1 = radians(float(point[0]))
+	lon1 = radians(float(point[1]))
+	lat2 = radians(float(point2[0]))
+	lon2 = radians(float(point2[1]))
 
 	# approximate radius of earth in km
 	R = 6373.0
@@ -80,7 +106,7 @@ def coordinatesToMeters(point, point2):
 
 	distance = R * c
 
-	return distance
+	return distance*1000
 	#print("Result:", distance)
 	#print("Should be:", 278.546, "km")
 
@@ -98,9 +124,9 @@ def boardSize(path):
 
 	coordinates = loadLocations(path)
 
-	distances = distances(outmostLatLong(coordinates, False, False))
+	dists = distances(outmostLatLong(coordinates, False, False))
 
-	return (distances[2] + distances[3]) / 2, (distances[0] + distances[1]) / 2
+	return (dists[2] + dists[3]) / 2, (dists[0] + dists[1]) / 2
 
 def coordinatesToPixels(coordinates):
 
@@ -110,7 +136,7 @@ def coordinatesToPixels(coordinates):
 	top = outmosts[0]
 	left = outmosts[0]
 
-	pixReferences = [coordinatesToMeters([top, coord[1]], [coord[0], coord[1]]), coordinatesToMeters([coord[0], left], [coord[0], coord[1]]) for coord in coordinates]
+	pixReferences = [(coordinatesToMeters([top, coord[1]], [coord[0], coord[1]]), coordinatesToMeters([coord[0], left], [coord[0], coord[1]])) for coord in coordinates]
 
 	return pixReferences
 
@@ -128,6 +154,9 @@ def coordinatesToPixels(coordinates):
 #
 #print(outmostLatLong([[-34.5355, -58.4740, -34.5461, -58.4541], [-34.553680, -58.454227, -34.540106, -58.470613]], False))
 #print(distances(outmostLatLong([[-34.5355, -58.4740, -34.5461, -58.4541], [-34.553680, -58.454227, -34.540106, -58.470613]], False, False)))
+#
+#print(coordinatesToMeters([-34.5355, -58.4740], [-34.5461, -58.4740]))
+
 #
 #
 #distances = distances(outmostLatLong([[-34.5355, -58.4740, -34.5461, -58.4541], [-34.553680, -58.454227, -34.540106, -58.470613]], False, False))

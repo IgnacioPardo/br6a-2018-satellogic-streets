@@ -8,7 +8,7 @@ from location_tools import *
 def loadTiles():
 	ls = []
 
-	locations = coordinatesToPixels(loadLocations('/tiles/dataset_georeferences.csv'))
+	locations = coordinatesToPixels(loadLocations('/dataset/georeferences.csv'))
 
 	if len(os.listdir(os.getcwd()+'/tiles/')) == 1:
 		image_filename = 'tiles/tile-0.bmp'
@@ -26,17 +26,14 @@ def createBoard():
 	#H = tiles[0][0].size[0] * sqrt(len(tiles))
 	#W = tiles[0][0].size[1] * sqrt(len(tiles))
 
-	H, W = boardSize('dataset/georeferences.csv')
+	H, W = boardSize('/dataset/georeferences.csv')
+
+	#print(H, W)
 
 	return Image.new("RGB", (int(H), int(W)), "black")
 
 def fitTiles(board, tiles):
-
-	#board = createBoard()
-
-	#tiles = loadTiles()
-
 	for tile in tiles:
-		board.paste(tile[0], (tile[1][1], tile[1][0]))
+		board.paste(tile[0], (int(tile[1][1]), int(tile[1][0])))
 
 	return board

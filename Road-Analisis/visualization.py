@@ -28,17 +28,9 @@ def predictionDepiction(t):
 	prediction = 'images/image-{}.png'.format(t)
 	pathToSave = 'tiles/tile-{}.bmp'.format(t)
 
-	#tile = Image.open(pathToImage)
-	#prediction = open().read() #Archivo de Tomislav
-
-	#Color predicted road blocks
-
-	#prediction = [[randint(0,1) for a in range(32)] for a in range(32)]
-
 	tile = scale(Image.open(prediction), 16, 512, 32)
 
-	#tile.save(pathToSave)
-	tile.save('images/tile-15.png')
+	tile.save(pathToSave)
 
 
 new = Image.new("RGB", (16, 16), 'black')
