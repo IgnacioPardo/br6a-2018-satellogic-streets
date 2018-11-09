@@ -32,4 +32,5 @@ def createDirectories():
 		os.makedirs(os.getcwd()+'/images/')
 	if not os.path.exists(os.getcwd()+'/dataset/'):
 		os.makedirs(os.getcwd()+'/dataset/')
-
+	if not os.path.exists(os.getcwd()+'/predictions/'):
+		os.makedirs(os.getcwd()+'/predictions/')
