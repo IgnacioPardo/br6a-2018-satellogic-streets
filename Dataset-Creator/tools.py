@@ -1,5 +1,6 @@
 from random import uniform, randint
 import math
+from math import sin, cos, sqrt, atan2, radians
 import os
 
 def offset(lat, lon, offset):
@@ -23,6 +24,26 @@ def offset(lat, lon, offset):
 	 lonO = round(lon + dLon * 180/math.pi, 8)
 
 	 return latO, lonO
+
+def coordinatesToMeters(point, point2):
+	
+	lat1 = radians(float(point[0]))
+	lon1 = radians(float(point[1]))
+	lat2 = radians(float(point2[0]))
+	lon2 = radians(float(point2[1]))
+
+	# approximate radius of earth in km
+	R = 6378.137
+
+	dlon = lon2 - lon1
+	dlat = lat2 - lat1
+
+	a = sin(dlat / 2)**2 + cos(lat1) * cos(lat2) * sin(dlon / 2)**2
+	c = 2 * atan2(sqrt(a), sqrt(1 - a))
+
+	distance = R * c
+
+	return distance*1000
 
 
 def randomRectangle(latRange, lonRange, size):
@@ -123,8 +144,7 @@ def createKML(lat, lon, lat2, lon2):
 	
 	return toSave
 
-
-def createBulk(amt):
+def createKMLBulk(amt):
 
 	bulk = []
 
@@ -137,3 +157,63 @@ def createBulk(amt):
 		bulk.append(createKML(lat, lon, lat2, lon2))
 
 	return bulk
+
+def addEntryToList(lis, image, latTopLeftCorner, longTopLeftCorner, latDownRightCorner, longDownRightCorner):
+	entry = [image, latTopLeftCorner, longTopLeftCorner, latDownRightCorner, longDownRightCorner]
+	lis.append(entry)
+	return lis
+
+def lisToCSV(lis, path):
+	datasetGeorefs = []
+	for entry in lis:
+		#createSingle(i)
+		datasetGeorefs.append(','.join([str(coord) for coord in entry]))
+
+	toSave = '\n'.join(datasetGeorefs)
+
+	file = open(path,'w+') 
+ 
+	file.write(toSave)
+	 
+	file.close()
+
+def merge(path):
+
+	#pathExample = /image_1/LC08_123032_20140515
+
+	imB = (np.array(Image.open(os.getcwd()+path+'.B2.tif'))*255)
+	imG = (np.array(Image.open(os.getcwd()+path+'.B3.tif'))*255)
+	imR = (np.array(Image.open(os.getcwd()+path+'.B4.tif'))*255)
+
+	print(imB.shape)
+
+	h, w = imB.shape
+
+	composite = Image.new("RGB", (w, h), 'black')
+
+	grid = composite.load()
+
+	a = False
+	if a:
+		for i in range(h):
+			for j in range(w):
+				R = int(imR[i][j] * 255)
+				G = int(imG[i][j] * 255)
+				B = int(imB[i][j] * 255)
+				grid[j, i] = (R, G, B)
+
+		composite.save('merged.tif')
+
+	imRGB = np.dstack((imR, imG, imB))#np.array(composite)
+	imBGR = np.dstack((imB, imG, imR))#np.array(composite)
+
+	gamma = 0.8
+
+
+	imRGB = ((imRGB/255) ** gamma * 255).astype(int) 
+	imBGR = ((imBGR/255) ** gamma * 255).astype(int) #for CV2 - better
+
+	return 
+
+
+
