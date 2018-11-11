@@ -185,30 +185,10 @@ def merge(path):
 	imG = (np.array(Image.open(os.getcwd()+path+'.B3.tif'))*255)
 	imR = (np.array(Image.open(os.getcwd()+path+'.B4.tif'))*255)
 
-	print(imB.shape)
+	imRGB = np.dstack((imR, imG, imB))
+	imBGR = np.dstack((imB, imG, imR))
 
-	h, w = imB.shape
-
-	composite = Image.new("RGB", (w, h), 'black')
-
-	grid = composite.load()
-
-	a = False
-	if a:
-		for i in range(h):
-			for j in range(w):
-				R = int(imR[i][j] * 255)
-				G = int(imG[i][j] * 255)
-				B = int(imB[i][j] * 255)
-				grid[j, i] = (R, G, B)
-
-		composite.save('merged.tif')
-
-	imRGB = np.dstack((imR, imG, imB))#np.array(composite)
-	imBGR = np.dstack((imB, imG, imR))#np.array(composite)
-
-	gamma = 0.8
-
+	gamma = 0.8 # Gamma correction value
 
 	imRGB = ((imRGB/255) ** gamma * 255).astype(int) 
 	imBGR = ((imBGR/255) ** gamma * 255).astype(int) #for CV2 - better
