@@ -3,7 +3,9 @@ from PIL import Image
 import cv2
 from random import randint
 
-def scale(img, originalSize, fullSize, roadSize):
+def scale(img, fullSize, roadSize):
+
+	ratio = fullSize/roadSize
 
 	new = Image.new("RGB", (fullSize, fullSize), 'black')
 
@@ -13,37 +15,39 @@ def scale(img, originalSize, fullSize, roadSize):
 
 	roadpxs = roadblock.load()
 
-	for i in range(originalSize):
-		for j in range(originalSize):
+	for i in range(ratio):
+		for j in range(ratio):
 			#print((i*fullSize/roadSize, j*fullSize/roadSize))
 			if img.getpixel((i, j)) == (255, 255, 255):
 				#print((i*fullSize/roadSize, j*fullSize/roadSize))
-				new.paste(roadblock, (int(i*fullSize/originalSize), int(j*fullSize/originalSize)))
+				new.paste(roadblock, (int(i*fullSize/ratio), int(j*fullSize/ratio)))
 
 	return new	
 
 
 def predictionDepiction(t):
 	
-	prediction = 'images/image-{}.png'.format(t)
+	prediction = 'predictions/prediction-{}.png'.format(t)
 	pathToSave = 'tiles/tile-{}.bmp'.format(t)
 
-	tile = scale(Image.open(prediction), 16, 512, 32)
+	imageSize = Image.open('images/image_1.tif').size[0]
+
+	tile = scale(Image.open(prediction), 512, 128)
 
 	tile.save(pathToSave)
 
 
-new = Image.new("RGB", (16, 16), 'black')
-
-pxs = new.load()
-
-for i in range(new.size[0]):
-	for j in range(new.size[1]):
-		if randint(0,8) == 1:
-			pxs[i, j] = (255, 255, 255)
-
-new.save('images/image-15.png')
-
-predictionDepiction(15)
+#new = Image.new("RGB", (16, 16), 'black')
+#
+#pxs = new.load()
+#
+#for i in range(new.size[0]):
+#	for j in range(new.size[1]):
+#		if randint(0,8) == 1:
+#			pxs[i, j] = (255, 255, 255)
+#
+#new.save('images/image-15.png')
+#
+#predictionDepiction(15)
 
 

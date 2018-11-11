@@ -5,10 +5,10 @@ import os
 from tqdm import tqdm
 from location_tools import *
 
-def loadTiles():
+def loadTiles(path):
 	ls = []
 
-	refs = tileReferences('images/georeferences.csv')
+	refs = tileReferences(path)
 
 	for i in tqdm(range(len(os.listdir(os.getcwd()+'/tiles/'))-3)):
 		image_filename = 'tiles/tile-{}.bmp'.format(i)
@@ -24,11 +24,11 @@ def boardSize(path):
 
 	return H, W
 
-def createBoard():
+def createBoard(path):
 	H = 0
 	W = 0
 
-	H, W = boardSize('/dataset/georeferences.csv')
+	H, W = boardSize(path)
 
 	return Image.new("RGB", (int(H), int(W)), "black")
 
