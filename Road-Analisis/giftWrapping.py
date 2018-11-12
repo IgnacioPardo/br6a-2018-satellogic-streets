@@ -100,8 +100,8 @@ def giftWrappedBoardSize(georeferencesPath):
 
     hull_points = ch.get_hull_points()
 
-    lons = [abs(a[0]) for a in ch.get_hull_points()]
-    lats = [abs(a[1]) for a in ch.get_hull_points()]
+    lons = [abs(point[0]) for point in ch.get_hull_points()]
+    lats = [abs(point[1]) for point in ch.get_hull_points()]
 
     maxLon = max(lons)
     minLon = min(lons)
@@ -116,16 +116,16 @@ def giftWrappedBoardSize(georeferencesPath):
     print(point_1, point_2)
     print(point_4, point_3) 
 
-    plt.plot(minLon, maxLat, 'o')
-    plt.plot(maxLon, minLat, '-*')
-    plt.title('Outmosts')
-    plt.show()
+    #plt.plot(minLon, maxLat, 'o')
+    #plt.plot(maxLon, minLat, '-*')
+    #plt.title('Outmosts')
+    #plt.show()
 
     W = coordinatesToMeters(point_1, point_2)
 
     H = coordinatesToMeters(point_1, point_4)
 
-    ch.display()
+    #ch.display()
 
     return H, W
 

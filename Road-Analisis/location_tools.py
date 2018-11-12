@@ -1,5 +1,7 @@
 import os
+import math
 from math import sin, cos, sqrt, atan2, radians
+from random import uniform
 
 def loadLocations(path):
 	csvPath = os.getcwd()+ path
@@ -40,6 +42,33 @@ def loadLocations(path):
 #height = outmostLatLong[0] - outmostLatLong[1]
 #width = outmostLatLong[3] - outmostLatLong[2]
 
+def randomPair(latRange, lonRange):
+	lat = round(uniform(latRange[0], latRange[1]), 8)
+	lon = round(uniform(lonRange[0], lonRange[1]), 8)
+
+	return lat, lon
+
+def offset(lat, lon, offset):
+	 #Earth’s radius, sphere
+
+	 lat = float(lat)
+	 lon = float(lon)
+
+	 R=6378137
+
+	 #offsets in meters
+	 dn = offset
+	 de = offset
+
+	 #Coordinate offsets in radians
+	 dLat = dn/R
+	 dLon = de/(R*math.cos(math.pi*lat/180))
+
+	 #OffsetPosition, decimal degrees
+	 latO = round(lat + dLat * 180/math.pi, 8)
+	 lonO = round(lon + dLon * 180/math.pi, 8)
+
+	 return latO, lonO
 
 def coordinatesToMeters(point, point2):
 	
@@ -131,7 +160,7 @@ def tileReferences(path):
 
 	coordinates = loadLocations(path)
 
-	boardMinLon, boardMaxLat = refs_0_0[1], refs_0_0[0]
+	boardMinLon, boardMaxLat = refs_0_0[0], refs_0_0[1]
 
 	for coord in coordinates:
 

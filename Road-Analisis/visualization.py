@@ -5,7 +5,9 @@ from random import randint
 
 def scale(img, fullSize, roadSize):
 
-	ratio = fullSize/roadSize
+	#ratio = predSize#int(fullSize/roadSize)
+
+	ratio = img.size[0]
 
 	new = Image.new("RGB", (fullSize, fullSize), 'black')
 
@@ -30,9 +32,13 @@ def predictionDepiction(t):
 	prediction = 'predictions/prediction-{}.png'.format(t)
 	pathToSave = 'tiles/tile-{}.bmp'.format(t)
 
-	imageSize = Image.open('images/image_1.tif').size[0]
+	#imageSize = Image.open('images/image_1.tif').size[0]
+	predImage = Image.open(prediction)
+	roadSize = 128
+	fullSize = predImage.size[0] * roadSize
 
-	tile = scale(Image.open(prediction), 512, 128)
+
+	tile = scale(predImage, fullSize, roadSize)
 
 	tile.save(pathToSave)
 

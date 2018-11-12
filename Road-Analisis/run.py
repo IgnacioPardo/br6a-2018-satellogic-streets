@@ -15,13 +15,13 @@ def multiple():
 	#for i in range(len(predictions)):
 		predictionDepiction(i)  #visualization.py Creates 'tiles/tile-i.bmp' from 'predictions/prediction-i.png'
 
-	georeferencesPath = 'images/georeferences.csv'
+	georeferencesPath = '/images/georeferences.csv'
 
 	tiles = loadTiles(georeferencesPath) #stitching.py Returns list of PIL.Images from 'tiles/'' files and appends locations to each from '/dataset/georeferences.csv'
 	
 	board = createBoard(georeferencesPath) #stitching.py Returns PIl.Image of dimentions extracted from '/dataset/georeferences.csv' outmosts latitude and longitud converted to meters (Res of 1m^2/pix)
 
-	premap = fitTiles(board, tiles) #stitching.py Pastes tiles into board with lat/long coordinates as reference
+	premap = fitTiles(board, tiles, res) #stitching.py Pastes tiles into board with lat/long coordinates as reference
 	premap.save('files/premap.bmp')
 	premap.save(data_dir+'/files/premap.bmp')
 
@@ -38,9 +38,7 @@ def single():
 
 	predictionDepiction(0)
 
-	premap = fitTiles(board, tiles)
-
-	premap.save('tiles/tile_0.bmp')
+	premap = Image.open('tiles/tile-0.bmp')
 
 	premap.save(data_dir+'/files/premap.bmp')
 
@@ -55,19 +53,76 @@ def separated():
 
 	#Neural Net Predicts roads from /images and saves to /predictions
 
+	#Neural Net Predicts roads from /images and saves to /predictions
+
 	for i in tqdm(range(len(os.listdir(os.getcwd()+'/predictions/')))):
 	#for i in range(len(predictions)):
 		predictionDepiction(i)
 
-		premap = fitTiles(board, tiles)
+	for i in tqdm(range(len(os.listdir(os.getcwd()+'/predictions/')))):
 
-		premap.save('tiles/tile_{}.bmp'.format(i))
+		premap = Image.open('tiles/tile-{}.bmp'.format(i))
 
-		premap.save(data_dir+'/files/premap_{}.bmp'.format(i))
+		premap.save(data_dir+'/files/premap-{}.bmp'.format(i))
 
-		sekeletonize('files/premap_{}.bmp'.format(i), 'skeletons/map_{}.bmp'.format(i)) #skeletonization.py Creates line image out of original squares.
+		sekeletonize('files/premap-{}.bmp'.format(i), 'skeletons/map-{}.bmp'.format(i)) #skeletonization.py Creates line image out of original squares.
 
-		bmp_to_svg('skeletons/map_{}.bmp'.format(i), 'maps/map_{}.svg'.format(i))
+		bmp_to_svg('skeletons/map-{}.bmp'.format(i), 'maps/map-{}.svg'.format(i))
+
+def multipleNoSkeleton():
+
+	createDirecories()
+
+	#Neural Net Predicts roads from /images and saves to /predictions
+
+	for i in tqdm(range(len(os.listdir(os.getcwd()+'/predictions/')))):
+
+		predictionDepiction(i)
+
+	georeferencesPath = '/images/georeferences.csv'
+
+	tiles = loadTiles(georeferencesPath) 
+
+	board = createBoard(georeferencesPath) 
+
+	premap = fitTiles(board, tiles, res) 
+	premap.save('files/premap.bmp')
+	premap.save(data_dir+'/files/premap.bmp')
+
+	bmp_to_svg('files/premap.bmp', 'maps/map.svg')
+
+def singleNoSkeleton():
+
+	createDirecories()
+
+	#Neural Net Predicts roads from /images and saves to /predictions
+
+	predictionDepiction(0)
+
+	premap = Image.open('tiles/tile-0.bmp')
+
+	premap.save(data_dir+'/files/premap.bmp')
+	
+	bmp_to_svg('files/premap.bmp', 'maps/map.svg')
+
+def separatedNoSkeleton():
+
+	createDirecories()
+
+	#Neural Net Predicts roads from /images and saves to /predictions
+
+	for i in tqdm(range(len(os.listdir(os.getcwd()+'/predictions/')))):
+
+		predictionDepiction(i)
+
+	for i in tqdm(range(len(os.listdir(os.getcwd()+'/predictions/')))):
+
+		premap = Image.open('tiles/tile-{}.bmp'.format(i))
+
+		premap.save(data_dir+'/files/premap-{}.bmp'.format(i))
+
+		bmp_to_svg('files/premap-{}.bmp'.format(i) 'maps/map-{}.svg'.format(i))
+
 
 
 

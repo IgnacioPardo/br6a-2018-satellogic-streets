@@ -4,36 +4,30 @@ from random import randint, choice
 import os
 from tqdm import tqdm
 from location_tools import *
+from giftWrapping import *
 
 def loadTiles(path):
+
 	ls = []
 
 	refs = tileReferences(path)
 
 	for i in tqdm(range(len(os.listdir(os.getcwd()+'/tiles/'))-3)):
 		image_filename = 'tiles/tile-{}.bmp'.format(i)
-		ls.append([Image.open(image_filename), locations[i]])
+		ls.append([Image.open(image_filename), refs[i]])
 	return ls
 
-def boardSize(path):
+def createBoard(path, res):
 
-	full_Corner1, full_Corner2, full_Corner3, full_Corner4 = outerPoints(path)
-
-	W = coordinatesToMeters(full_Corner1, full_Corner2)
-	H = coordinatesToMeters(full_Corner1, full_Corner4)
-
-	return H, W
-
-def createBoard(path):
 	H = 0
 	W = 0
 
-	H, W = boardSize(path)
+	H, W = giftWrappedBoardSize(path)
 
-	return Image.new("RGB", (int(H), int(W)), "black")
+	return Image.new("RGB", (int(H * res), int(W * res)), "black")
 
-def fitTiles(board, tiles):
+def fitTiles(board, tiles, res):
+
 	for tile in tiles:
-		board.paste(tile[0], (int(tile[1][1]), int(tile[1][0])))
-
+		board.paste(tile[0], (int(tile[1][1] * res), int(tile[1][0] * res)))
 	return board
