@@ -5,6 +5,10 @@ tests/
 skeletons/
 maps/
 files/
+images/
+images-2/
+Dataset-Creator/
+predictions/
 
 #tests
 visualization_test.py

@@ -2,6 +2,8 @@ from random import uniform, randint
 import math
 from math import sin, cos, sqrt, atan2, radians
 import os
+import numpy as np
+from PIL import Image
 
 def offset(lat, lon, offset):
 	 #Earth’s radius, sphere

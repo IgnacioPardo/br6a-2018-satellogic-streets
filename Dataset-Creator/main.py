@@ -36,4 +36,8 @@ def run():
 
 	imagePicker(cantImagenes, rangoLatitud, rangoLongitud, alto_ancho, georeferencias)
 
-run()
+#run()
+
+path = '/image_1/LC08_123032_20140515'
+
+merge(path)
